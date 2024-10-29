@@ -1,0 +1,90 @@
+# Import necessary libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Load the dataset (if using Seaborn's Titanic dataset)
+titanic = sns.load_dataset("titanic")
+
+# Display basic information
+print("Dataset Info:")
+print(titanic.info())
+
+# Display the first few rows of the dataset
+print("\nFirst Few Rows:")
+print(titanic.head())
+
+# Data Cleaning Steps
+# 1. Check for Missing Values
+print("\nMissing Values in Each Column:")
+print(titanic.isnull().sum())
+
+# 2. Handling Missing Values
+# For simplicity, we will fill 'age' with the median and 'embarked' with the mode
+titanic['age'].fillna(titanic['age'].median(), inplace=True)
+titanic['embarked'].fillna(titanic['embarked'].mode()[0], inplace=True)
+
+# Drop rows with missing 'deck' and 'embark_town' values (or other columns you choose to ignore)
+titanic.drop(columns=['deck', 'embark_town'], inplace=True)
+
+# Verify that missing values are addressed
+print("\nMissing Values After Cleaning:")
+print(titanic.isnull().sum())
+
+# 3. Convert 'sex' and 'embarked' columns to categorical data
+titanic['sex'] = pd.Categorical(titanic['sex'])
+titanic['embarked'] = pd.Categorical(titanic['embarked'])
+
+# Exploratory Data Analysis (EDA)
+
+# 1. Univariate Analysis
+# Distribution of Age
+plt.figure(figsize=(10, 6))
+sns.histplot(titanic['age'], bins=30, kde=True, color='skyblue')
+plt.title("Age Distribution")
+plt.show()
+
+# Distribution of Fare
+plt.figure(figsize=(10, 6))
+sns.histplot(titanic['fare'], bins=30, kde=True, color='lightgreen')
+plt.title("Fare Distribution")
+plt.show()
+
+# Count of Survival
+plt.figure(figsize=(6, 4))
+sns.countplot(data=titanic, x='survived', palette='Set2')
+plt.title("Survival Count")
+plt.show()
+
+# 2. Bivariate Analysis
+# Survival Rate by Gender
+plt.figure(figsize=(8, 6))
+sns.barplot(data=titanic, x='sex', y='survived', palette='pastel')
+plt.title("Survival Rate by Gender")
+plt.show()
+
+# Survival Rate by Passenger Class
+plt.figure(figsize=(8, 6))
+sns.barplot(data=titanic, x='pclass', y='survived', palette='muted')
+plt.title("Survival Rate by Passenger Class")
+plt.show()
+
+# Survival Rate by Age
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=titanic, x='survived', y='age', palette='viridis')
+plt.title("Survival Rate by Age")
+plt.show()
+
+# 3. Multivariate Analysis
+# Survival Rate by Gender and Class
+plt.figure(figsize=(10, 8))
+sns.heatmap(pd.crosstab(titanic['pclass'], titanic['sex'], values=titanic['survived'], aggfunc='mean'), annot=True, cmap="YlGnBu")
+plt.title("Survival Rate by Gender and Class")
+plt.show()
+
+# Correlation Heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(titanic.corr(), annot=True, cmap="coolwarm", vmin=-1, vmax=1)
+plt.title("Correlation Heatmap of Titanic Dataset")
+plt.show()
