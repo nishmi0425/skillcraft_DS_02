@@ -30,9 +30,13 @@ We displayed the summary statistics of the dataset using df.describe().
 3.Data Visualization:We used data visualization techniques to explore relationships and patterns in the dataset:
 
 >Survival by Sex: We created a count plot to visualize survival by gender.
+
 >Survival by Passenger Class: We created a count plot to visualize survival by passenger class.
+
 >Survival by Age: We used a histogram to visualize the age distribution of survivors and non-survivors.
+
 >Survival by Fare: We used a histogram to visualize the fare distribution of survivors and non-survivors.
+
 >Correlation Heatmap: We generated a heatmap to visualize the correlation between various numerical features and survival.
 
 Age and Fare Distribution
